@@ -1,0 +1,30 @@
+<!-- menu_toolbar.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Trang Chủ"
+        android:icon="@drawable/ic_home"
+        android:textColor="#FFFFFF"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/nav_offers"
+        android:title="Ưu Đãi"
+        android:icon="@drawable/ic_offer"
+        android:textColor="#FFFFFF"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_add"
+        android:title="Thêm truyện"
+        android:icon="@drawable/ic_add"
+        android:textColor="#FFFFFF"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_library"
+        android:title="Thư Viện"
+        android:icon="@drawable/ic_library"
+        android:textColor="#FFFFFF"
+        app:showAsAction="always" />
+</menu>
+

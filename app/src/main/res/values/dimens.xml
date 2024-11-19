@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kích thước hình ảnh -->
+    <dimen name="image_width">150dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+
+    <!-- Khoảng cách giữa các hình ảnh -->
+    <dimen name="image_margin_end">20dp</dimen>
+</resources>

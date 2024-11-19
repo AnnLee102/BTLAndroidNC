@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "82519767977",
+    "firebase_url": "https://btlandroidnc-4d5f5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "btlandroidnc-4d5f5",
+    "storage_bucket": "btlandroidnc-4d5f5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82519767977:android:31ff45fef50e12e57362b8",
+        "android_client_info": {
+          "package_name": "com.example.readstoryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlmXaANjhz59Ki5MZ7JVnwivbGl5aUJ2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

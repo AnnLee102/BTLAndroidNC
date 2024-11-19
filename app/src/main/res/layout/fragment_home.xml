@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#1C1C1C">
+
+    <!-- Dòng 1: Các thể loại sách nằm ngang -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            >
+
+            <!-- TextView 1 -->
+            <TextView
+                android:id="@+id/textViewCategory1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Sách nói"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+            <!-- TextView 2 -->
+            <TextView
+                android:id="@+id/textViewCategory2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sách điện tử"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- TextView 3 -->
+            <TextView
+                android:id="@+id/textViewCategory3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Truyện tranh"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:clickable="true"
+                android:focusable="true" />
+            <!-- TextView 4 -->
+            <TextView
+                android:id="@+id/textViewCategory4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sách Hiệu Sồi"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:clickable="true"
+                android:focusable="true" />
+            <!-- TextView 5 -->
+            <TextView
+                android:id="@+id/textViewCategory5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sách giấy"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:clickable="true"
+                android:focusable="true" />
+            <!-- TextView 6 -->
+            <TextView
+                android:id="@+id/textViewCategory6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Podcast"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- RecyclerView để hiển thị các ảnh -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Dòng 2: Dành riêng cho bạn -->
+    <TextView
+        android:id="@+id/text_for_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dành riêng cho bạn"
+        android:textSize="20sp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Truyện 1 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 1" />
+
+                <TextView
+                    android:id="@+id/textViewName1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 1"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                     />
+            </LinearLayout>
+
+            <!-- Truyện 2 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 2" />
+
+                <TextView
+                    android:id="@+id/textViewName2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 2"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                     />
+            </LinearLayout>
+
+            <!-- Truyện 3 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 3" />
+
+                <TextView
+                    android:id="@+id/textViewName3"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 3"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+
+            <!-- Truyện 4 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 4" />
+
+                <TextView
+                    android:id="@+id/textViewName4"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 4"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+
+            <!-- Truyện 5 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 5" />
+
+                <TextView
+                    android:id="@+id/textViewName5"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 5"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+
+            <!-- Truyện 6 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="Truyện 6" />
+
+                <TextView
+                    android:id="@+id/textViewName6"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Truyện 6"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+
+
+    <!-- Dòng 3: Sách miễn phí -->
+    <TextView
+        android:id="@+id/text_free_books"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sách miễn phí"
+        android:textSize="20sp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Các truyện trong phần "Sách miễn phí" -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Miễn phí 1"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Miễn phí 2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Miễn phí 3"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_einstein"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện 4"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_einstein"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện 5"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_einstein"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện 6"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Dòng 4: Mới nhất -->
+    <TextView
+        android:id="@+id/text_latest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mới nhất"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Các truyện trong phần "Mới nhất" -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Mới nhất 1"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Mới nhất 2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Mới nhất 3"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <!-- Dòng 5: Top 10 sách điện tử tuần này -->
+    <TextView
+        android:id="@+id/text_electronics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top 10 sách điện tử tuần này"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Các truyện trong phần "Top 1 sách điện tử tuần này" -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Điện tử 1"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Điện tử 2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Điện tử 3"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <!-- Dòng 6: Top 10 sách nói tuần này -->
+    <TextView
+        android:id="@+id/text_speak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top 10 sách nói tuần này"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Các truyện trong phần "Top 10 sách nói tuần này" -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Sách nói 1"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Sách nói 2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Sách nói 3"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <!-- Dòng 7: Top 10 truyện tranh tuần này -->
+    <TextView
+        android:id="@+id/text_comic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top 10 truyện tranh tuần này"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Các truyện trong phần "Top 10 truyện tranh tuần này" -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện tranh 1"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện tranh 2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/book_thao_tung"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Truyện tranh 3"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Khoảng trống 100dp để tránh bị thanh menu che khuất -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="70dp"/>
+
+</LinearLayout>
+</ScrollView>

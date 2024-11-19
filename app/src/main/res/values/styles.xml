@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MenuItemStyle">
+        <item name="android:textSize">18sp</item> <!-- Tăng cỡ chữ -->
+        <item name="android:paddingStart">20dp</item> <!-- Tăng khoảng cách trái -->
+        <item name="android:paddingEnd">100dp</item> <!-- Tăng khoảng cách phải -->
+        <item name="android:paddingTop">100dp</item> <!-- Tăng khoảng cách trên -->
+        <item name="android:paddingBottom">20dp</item> <!-- Tăng khoảng cách dưới -->
+    </style>
+</resources>

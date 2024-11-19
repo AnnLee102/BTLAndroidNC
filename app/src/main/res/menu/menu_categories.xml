@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/menu_categories.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_poetry"
+        android:title="Thơ - Tản văn" />
+    <item android:id="@+id/nav_detective"
+        android:title="Trinh thám - Kinh dị" />
+    <item android:id="@+id/nav_marketing"
+        android:title="Marketing - Bán hàng" />
+    <item android:id="@+id/nav_management"
+        android:title="Quản trị - Lãnh đạo" />
+    <item android:id="@+id/nav_finance"
+        android:title="Tài chính cá nhân" />
+    <item android:id="@+id/nav_personal_dev"
+        android:title="Phát triển cá nhân" />
+    <item android:id="@+id/nav_business"
+        android:title="Doanh nhân - Bài học kinh doanh" />
+    <item android:id="@+id/nav_learning"
+        android:title="Học tập - Hướng nghiệp" />
+    <item android:id="@+id/nav_psychology"
+        android:title="Tâm lý - Giới tính" />
+    <item android:id="@+id/nav_health"
+        android:title="Sức khỏe - Làm đẹp" />
+    <item android:id="@+id/nav_science"
+        android:title="Khoa học - Công nghệ" />
+    <item android:id="@+id/nav_creative_thinking"
+        android:title="Tư duy sáng tạo" />
+    <item android:id="@+id/nav_investment"
+        android:title="Chứng khoán - Bất động sản - Đầu tư" />
+    <item android:id="@+id/nav_social"
+        android:title="Giáo dục - Văn hóa và Xã hội" />
+</menu>
