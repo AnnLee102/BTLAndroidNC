@@ -1,21 +1,17 @@
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="8dp"
     android:padding="8dp"
-    android:gravity="center_horizontal">
+    android:layout_margin="4dp">
 
-    <!-- Hình ảnh -->
     <ImageView
-        android:id="@+id/imageViewItem"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+        android:id="@+id/storyImage"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
-        />
+       />
 
-    <!-- Tên sách -->
     <TextView
         android:id="@+id/textViewItemName"
         android:layout_width="120dp"
@@ -29,4 +25,3 @@
         android:lineSpacingExtra="2dp"
         android:breakStrategy="simple" />
 </LinearLayout>
-
