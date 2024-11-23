@@ -1,9 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="Close button"
+        android:src="@drawable/ic_close"
+        app:tint="#FFFFFF"
+        android:layout_marginTop="7sp"
+        android:layout_marginRight="10dp"
 
+        />
     <ImageView
         android:id="@+id/bookImage"
         android:layout_width="150dp"

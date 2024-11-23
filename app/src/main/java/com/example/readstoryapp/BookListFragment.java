@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +45,35 @@ public class BookListFragment extends Fragment {
         TextView textViewCategory = view.findViewById(R.id.textViewCategory);
         textViewCategory.setText("Thể loại: " + category);
 
+
+        ImageView closeButton = view.findViewById(R.id.closeButton); // ID của nút "X"
+        closeButton.setOnClickListener(v -> returnToHomeFragment());
+
+        // Ánh xạ các TextView thể loại
+        TextView textViewCategory1 = view.findViewById(R.id.textViewCategory1);
+        TextView textViewCategory2 = view.findViewById(R.id.textViewCategory2);
+        TextView textViewCategory3 = view.findViewById(R.id.textViewCategory3);
+        TextView textViewCategory4 = view.findViewById(R.id.textViewCategory4);
+        TextView textViewCategory5 = view.findViewById(R.id.textViewCategory5);
+        TextView textViewCategory6 = view.findViewById(R.id.textViewCategory6);
+
+        // Xử lý click cho TextView "Sách nói"
+        textViewCategory1.setOnClickListener(v -> openBookListFragment("Sách nói"));
+
+        // Xử lý click cho TextView "Sách điện tử"
+        textViewCategory2.setOnClickListener(v -> openBookListFragment("Sách điện tử"));
+
+        // Xử lý click cho TextView "Truyện tranh"
+        textViewCategory3.setOnClickListener(v -> openBookListFragment("Truyện tranh"));
+
+        // Xử lý click cho TextView "Hiệu Sồi"
+        textViewCategory4.setOnClickListener(v -> openBookListFragment("Hiệu Sồi"));
+
+        // Xử lý click cho TextView "Sách giấy"
+        textViewCategory5.setOnClickListener(v -> openBookListFragment("Sách giấy"));
+
+        // Xử lý click cho TextView "Podcast"
+        textViewCategory6.setOnClickListener(v -> openBookListFragment("Podcast"));
         loadStories(view);
 
         return view;
@@ -92,7 +122,15 @@ public class BookListFragment extends Fragment {
     }
 
 
+    private void openBookListFragment(String category) {
+        // Tạo instance mới của BookListFragment với category tương ứng
+        BookListFragment bookListFragment = BookListFragment.newInstance(category);
 
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, bookListFragment) // fragment_container là ID của ViewGroup chứa các Fragment
+                .addToBackStack(null) // Thêm vào BackStack để quay lại fragment trước đó
+                .commit();
+    }
     private void openDetailFragment(Story story) {
         BookDetailFragment fragment = BookDetailFragment.newInstance(
                 story.getName(),
@@ -106,4 +144,11 @@ public class BookListFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+    private void returnToHomeFragment() {
+        // Xóa tất cả các fragment trong back stack
+        requireActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+
+    }
+
 }

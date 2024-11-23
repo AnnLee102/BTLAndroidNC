@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,13 +38,16 @@ public class BookDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
+
+
         if (getArguments() != null) {
             name = getArguments().getString("name");
             author = getArguments().getString("author");
             imageUrl = getArguments().getString("imageUrl");
             contentUrl = getArguments().getString("contentUrl");
         }
-
+        ImageView closeButton = view.findViewById(R.id.closeButton); // ID của nút "X"
+        closeButton.setOnClickListener(v -> returnToPreviousFragment());
         // Lấy các view từ layout
         ImageView bookImage = view.findViewById(R.id.bookImage);
         TextView bookName = view.findViewById(R.id.bookName);
@@ -64,13 +68,22 @@ public class BookDetailFragment extends Fragment {
             bookAuthor.setText("Tác giả: " + author);
         }
 
-        // Mở URL nội dung khi người dùng nhấn vào nút "Đọc Sách"
+//        // Mở URL nội dung khi người dùng nhấn vào nút "Đọc Sách"
+//        readBook.setOnClickListener(v -> {
+//            if (contentUrl != null && !contentUrl.isEmpty()) {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
+//                startActivity(browserIntent);
+//            }
+//        });
+        // Mở nội dung sách trong Activity mới
         readBook.setOnClickListener(v -> {
             if (contentUrl != null && !contentUrl.isEmpty()) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
-                startActivity(browserIntent);
+                Intent intent = new Intent(getContext(), ContentActivity.class);
+                intent.putExtra("contentUrl", contentUrl); // Truyền URL qua Intent
+                startActivity(intent);
             }
         });
+
 
         // Thiết lập RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -86,4 +99,9 @@ public class BookDetailFragment extends Fragment {
             recyclerView.setAdapter(storyAdapter);
         });
     }
+
+    private void returnToPreviousFragment() {
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
 }
