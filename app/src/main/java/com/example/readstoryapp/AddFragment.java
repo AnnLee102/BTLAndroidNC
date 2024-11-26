@@ -41,7 +41,7 @@ public class AddFragment extends Fragment {
     private DatabaseReference mDatabase;
 
     // Các thể loại có sẵn trong Spinner
-    String[] categories = {"Sách nói", "Sách điện tử", "Truyện tranh", "Sách Hiệu Sồi", "Sách giấy", "Podcast"};
+    String[] categories = {"Sách nói", "Sách điện tử", "Truyện tranh", "Hiệu Sồi", "Sách giấy", "Podcast"};
 
     @Nullable
     @Override

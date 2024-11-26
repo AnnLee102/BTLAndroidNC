@@ -1,54 +1,67 @@
 package com.example.readstoryapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
+// Adapter sau khi ấn search
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
-    private List<Story> stories;
 
-    public StoryAdapter(List<Story> stories) {
-        this.stories = stories;
+    private Context context;
+    private ArrayList<Story> storyList;
+
+    // Constructor nhận context và list các câu chuyện
+    public StoryAdapter(Context context, ArrayList<Story> storyList) {
+        this.context = context;
+        this.storyList = storyList;
+    }
+
+    @NonNull
+    @Override
+    public StoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context).inflate(R.layout.result_item, parent, false);
+        return new StoryViewHolder(itemView);
     }
 
     @Override
-    public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_related_story, parent, false);
-        return new StoryViewHolder(view);
-    }
+    public void onBindViewHolder(@NonNull StoryViewHolder holder, int position) {
+        Story story = storyList.get(position);
 
-    @Override
-    public void onBindViewHolder(StoryViewHolder holder, int position) {
-        Story story = stories.get(position);
-        holder.bookName.setText(story.getName());
-        holder.bookAuthor.setText(story.getAuthor());
-        if (story.getImageUrl() != null && !story.getImageUrl().isEmpty()) {
-            Picasso.get().load(story.getImageUrl()).into(holder.bookImage);
-        }
+        // Đặt tên truyện, tác giả và thể loại
+        holder.storyName.setText(story.getName());
+        holder.storyAuthor.setText(story.getAuthor());
+        holder.storyCategory.setText(story.getCategory());
+
+        // Đặt ảnh truyện (nếu có)
+        Picasso.get().load(story.getImageUrl()).into(holder.storyImage);
     }
 
     @Override
     public int getItemCount() {
-        return stories.size();
+        return storyList.size();
     }
 
-    public static class StoryViewHolder extends RecyclerView.ViewHolder {
-        TextView bookName, bookAuthor;
-        ImageView bookImage;
+    // ViewHolder cho từng item trong RecyclerView
+    public class StoryViewHolder extends RecyclerView.ViewHolder {
+        TextView storyName, storyAuthor, storyCategory;
+        ImageView storyImage;
 
         public StoryViewHolder(View itemView) {
             super(itemView);
-            bookName = itemView.findViewById(R.id.bookName);
-            bookAuthor = itemView.findViewById(R.id.bookAuthor);
-            bookImage = itemView.findViewById(R.id.bookImage);
+            storyName = itemView.findViewById(R.id.story_name);
+            storyAuthor = itemView.findViewById(R.id.story_author);
+            storyCategory = itemView.findViewById(R.id.story_category);
+            storyImage = itemView.findViewById(R.id.story_image);
         }
     }
 }

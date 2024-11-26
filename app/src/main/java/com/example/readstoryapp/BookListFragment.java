@@ -1,7 +1,8 @@
-
 package com.example.readstoryapp;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -45,11 +47,19 @@ public class BookListFragment extends Fragment {
         TextView textViewCategory = view.findViewById(R.id.textViewCategory);
         textViewCategory.setText("Thể loại: " + category);
 
-
         ImageView closeButton = view.findViewById(R.id.closeButton); // ID của nút "X"
         closeButton.setOnClickListener(v -> returnToHomeFragment());
 
-        // Ánh xạ các TextView thể loại
+        // Ánh xạ và xử lý sự kiện click cho các thể loại
+        setUpCategoryClickEvents(view);
+
+        // Tải dữ liệu
+        loadStories(view);
+
+        return view;
+    }
+
+    private void setUpCategoryClickEvents(View view) {
         TextView textViewCategory1 = view.findViewById(R.id.textViewCategory1);
         TextView textViewCategory2 = view.findViewById(R.id.textViewCategory2);
         TextView textViewCategory3 = view.findViewById(R.id.textViewCategory3);
@@ -57,26 +67,12 @@ public class BookListFragment extends Fragment {
         TextView textViewCategory5 = view.findViewById(R.id.textViewCategory5);
         TextView textViewCategory6 = view.findViewById(R.id.textViewCategory6);
 
-        // Xử lý click cho TextView "Sách nói"
         textViewCategory1.setOnClickListener(v -> openBookListFragment("Sách nói"));
-
-        // Xử lý click cho TextView "Sách điện tử"
         textViewCategory2.setOnClickListener(v -> openBookListFragment("Sách điện tử"));
-
-        // Xử lý click cho TextView "Truyện tranh"
         textViewCategory3.setOnClickListener(v -> openBookListFragment("Truyện tranh"));
-
-        // Xử lý click cho TextView "Hiệu Sồi"
         textViewCategory4.setOnClickListener(v -> openBookListFragment("Hiệu Sồi"));
-
-        // Xử lý click cho TextView "Sách giấy"
         textViewCategory5.setOnClickListener(v -> openBookListFragment("Sách giấy"));
-
-        // Xử lý click cho TextView "Podcast"
         textViewCategory6.setOnClickListener(v -> openBookListFragment("Podcast"));
-        loadStories(view);
-
-        return view;
     }
 
     private void loadStories(View view) {
@@ -102,35 +98,68 @@ public class BookListFragment extends Fragment {
         layout.removeAllViews();
 
         for (Story story : stories) {
-            // Inflate layout của mỗi mục
-            View itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_image, layout, false);
-
-            // Ánh xạ các thành phần
-            ImageView imageView = itemView.findViewById(R.id.imageViewItem);
-            TextView textView = itemView.findViewById(R.id.textViewItemName);
-
-            // Gán dữ liệu
-            textView.setText(story.getName());
-            Picasso.get().load(story.getImageUrl()).into(imageView);
-
-            // Set sự kiện click
+            View itemView = createImageWithTitle(story);
             itemView.setOnClickListener(v -> openDetailFragment(story));
-
-            // Thêm vào GridLayout
             layout.addView(itemView);
         }
     }
 
+    private View createImageWithTitle(Story story) {
+        // Tạo layout cho ảnh và tên truyện
+        LinearLayout imageLayout = new LinearLayout(getContext());
+        imageLayout.setOrientation(LinearLayout.VERTICAL);
+
+        // Tạo CardView bọc ảnh
+        CardView cardView = new CardView(getContext());
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                convertDpToPx(180), convertDpToPx(250));
+        cardParams.setMargins(25, 30, 20, 10);
+        cardView.setLayoutParams(cardParams);
+        cardView.setRadius(convertDpToPx(8));
+        cardView.setCardElevation(8);
+        cardView.setPreventCornerOverlap(true);
+        cardView.setUseCompatPadding(true);
+
+        // Cài đặt ảnh bên trong CardView
+        ImageView imageView = new ImageView(getContext());
+        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        imageView.setLayoutParams(imageParams);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Picasso.get().load(story.getImageUrl()).into(imageView);
+
+        cardView.addView(imageView);
+        imageLayout.addView(cardView);
+
+        // Tạo tên truyện
+        TextView textView = new TextView(getContext());
+        textView.setText(story.getName());
+        textView.setMaxLines(2);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setTypeface(null, Typeface.BOLD);
+
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                convertDpToPx(180), LinearLayout.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(textParams);
+        textView.setPadding(35, 10, 0, 20);
+        imageLayout.addView(textView);
+
+        return imageLayout;
+    }
+
+    private int convertDpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dp * density);
+    }
 
     private void openBookListFragment(String category) {
-        // Tạo instance mới của BookListFragment với category tương ứng
         BookListFragment bookListFragment = BookListFragment.newInstance(category);
-
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, bookListFragment) // fragment_container là ID của ViewGroup chứa các Fragment
-                .addToBackStack(null) // Thêm vào BackStack để quay lại fragment trước đó
+                .replace(R.id.fragment_container, bookListFragment)
+                .addToBackStack(null)
                 .commit();
     }
+
     private void openDetailFragment(Story story) {
         BookDetailFragment fragment = BookDetailFragment.newInstance(
                 story.getName(),
@@ -138,17 +167,13 @@ public class BookListFragment extends Fragment {
                 story.getImageUrl(),
                 story.getContentUrl()
         );
-
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
+
     private void returnToHomeFragment() {
-        // Xóa tất cả các fragment trong back stack
         requireActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-
     }
-
 }

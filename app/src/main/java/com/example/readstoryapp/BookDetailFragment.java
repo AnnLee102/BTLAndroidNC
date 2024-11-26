@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookDetailFragment extends Fragment {
@@ -95,7 +96,8 @@ public class BookDetailFragment extends Fragment {
     private void loadRelatedStories() {
         FirebaseDatabaseHelper databaseHelper = new FirebaseDatabaseHelper();
         databaseHelper.getStories(stories -> {
-            storyAdapter = new StoryAdapter(stories);
+            storyAdapter = new StoryAdapter(requireContext(), new ArrayList<>(stories));
+
             recyclerView.setAdapter(storyAdapter);
         });
     }

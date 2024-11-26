@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,10 +33,19 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewImages;
     private List<Integer> images = Arrays.asList(
-            R.drawable.book_einstein,
-            R.drawable.book_thao_tung,
-            R.drawable.book_einstein
+            R.drawable.truyen_1,
+            R.drawable.truyen_2,
+            R.drawable.truyen_3
     );
+    private RecyclerView recyclerViewSuggestions;
+    private RecyclerView recyclerViewNewest;
+
+    private CommonBooksAdapter suggestionsAdapter;
+    private CommonBooksAdapter newestAdapter;
+
+    private List<String> imageUrls = new ArrayList<>();
+    private List<String> bookNames = new ArrayList<>();
+
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("stories");
 
@@ -69,7 +76,7 @@ public class HomeFragment extends Fragment {
         textViewCategory3.setOnClickListener(v -> openBookListFragment("Truyện tranh"));
 
         // Xử lý click cho TextView "Sách Hiệu Sồi"
-        textViewCategory4.setOnClickListener(v -> openBookListFragment("Sách Hiệu Sồi"));
+        textViewCategory4.setOnClickListener(v -> openBookListFragment("Hiệu Sồi"));
 
         // Xử lý click cho TextView "Sách giấy"
         textViewCategory5.setOnClickListener(v -> openBookListFragment("Sách giấy"));
@@ -115,229 +122,103 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerViewImages = view.findViewById(R.id.recyclerViewImages);  // Chắc chắn gọi findViewById ở đây
+        recyclerViewImages = view.findViewById(R.id.recyclerViewImages);
+        // Ánh xạ RecyclerView
+        recyclerViewSuggestions = view.findViewById(R.id.recyclerViewSuggestions);
+        recyclerViewNewest = view.findViewById(R.id.recyclerViewNewest);
+
+        // Khởi tạo adapter
+        suggestionsAdapter = new CommonBooksAdapter(new ArrayList<>(), new ArrayList<>());
+        newestAdapter = new CommonBooksAdapter(new ArrayList<>(), new ArrayList<>());
+
+        // Cài đặt RecyclerView
+        setupRecyclerView1(recyclerViewSuggestions, suggestionsAdapter);
+        setupRecyclerView1(recyclerViewNewest, newestAdapter);
+
+        // Lấy dữ liệu từ Firebase
+        fetchStoriesFromFirebase();
 
 
-        // Kết nối các ImageView
-        ImageView imageView1 = view.findViewById(R.id.imageView1);
-        ImageView imageView2 = view.findViewById(R.id.imageView2);
-        ImageView imageView3 = view.findViewById(R.id.imageView3);
-        ImageView imageView4 = view.findViewById(R.id.imageView4);
-        ImageView imageView5 = view.findViewById(R.id.imageView5);
-        ImageView imageView6 = view.findViewById(R.id.imageView6);
-        TextView textViewName1 = view.findViewById(R.id.textViewName1);
-        TextView textViewName2 = view.findViewById(R.id.textViewName2);
-        TextView textViewName3 = view.findViewById(R.id.textViewName3);
-        TextView textViewName4 = view.findViewById(R.id.textViewName4);
-        TextView textViewName5 = view.findViewById(R.id.textViewName5);
-        TextView textViewName6 = view.findViewById(R.id.textViewName6);
+        // Cấu hình RecyclerView cho từng thể loại
+        setupRecyclerView(view, R.id.recycler_electronic_books, "Sách điện tử");
+        setupRecyclerView(view, R.id.recycler_audio_books, "Sách nói");
+        setupRecyclerView(view, R.id.recycler_comics, "Truyện tranh");
 
-        // Đoạn mã tải dữ liệu Firebase và hiển thị ảnh
-        databaseReference.child("story1").addListenerForSingleValueEvent(new ValueEventListener() {
+    }
+
+    private void setupRecyclerView(View view, int recyclerViewId, String category){
+        RecyclerView recyclerView = view.findViewById(recyclerViewId);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        List<String> imageUrls = new ArrayList<>();
+        List<String> bookNames = new ArrayList<>();
+        CommonBooksAdapter adapter = new CommonBooksAdapter(imageUrls, bookNames);
+
+        recyclerView.setAdapter(adapter);
+
+        // Tải dữ liệu từ Firebase
+        databaseReference.orderByChild("category").equalTo(category).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl1 = snapshot.child("imageUrl").getValue(String.class);
-                    String name1 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl1 != null) {
-                        Picasso.get().load(imageUrl1).placeholder(R.drawable.book_einstein).into(imageView1);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story1", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story1");
+                for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
+                    String imageUrl = bookSnapshot.child("imageUrl").getValue(String.class);
+                    String name = bookSnapshot.child("name").getValue(String.class);
+                    if (imageUrl != null && name != null) {
+                        imageUrls.add(imageUrl);
+                        bookNames.add(name);
                     }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name1 != null) {
-                        textViewName1.setText(name1);
-                    } else {
-                        textViewName1.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story1");
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
-            }
-        });
-
-        databaseReference.child("story2").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl2 = snapshot.child("imageUrl").getValue(String.class);
-                    String name2 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl2 != null) {
-                        Picasso.get().load(imageUrl2).placeholder(R.drawable.book_einstein).into(imageView2);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story2", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story2");
-                    }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name2 != null) {
-                        textViewName2.setText(name2);
-                    } else {
-                        textViewName2.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story2");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
-            }
-        });
-
-        databaseReference.child("story3").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl3 = snapshot.child("imageUrl").getValue(String.class);
-                    String name3 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl3 != null) {
-                        Picasso.get().load(imageUrl3).placeholder(R.drawable.book_einstein).into(imageView3);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story3", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story3");
-                    }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name3 != null) {
-                        textViewName3.setText(name3);
-                    } else {
-                        textViewName3.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story3");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
-            }
-        });
-
-        databaseReference.child("story4").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl4 = snapshot.child("imageUrl").getValue(String.class);
-                    String name4 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl4 != null) {
-                        Picasso.get().load(imageUrl4).placeholder(R.drawable.book_einstein).into(imageView4);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story4", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story4");
-                    }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name4 != null) {
-                        textViewName4.setText(name4);
-                    } else {
-                        textViewName4.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story4");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
-            }
-        });
-
-        databaseReference.child("story5").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl5 = snapshot.child("imageUrl").getValue(String.class);
-                    String name5 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl5 != null) {
-                        Picasso.get().load(imageUrl5).placeholder(R.drawable.book_einstein).into(imageView5);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story5", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story5");
-                    }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name5 != null) {
-                        textViewName5.setText(name5);
-                    } else {
-                        textViewName5.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story5");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
-            }
-        });
-
-        databaseReference.child("story6").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Lấy URL ảnh và tên truyện từ Firebase
-                    String imageUrl6 = snapshot.child("imageUrl").getValue(String.class);
-                    String name6 = snapshot.child("name").getValue(String.class);
-
-                    if (imageUrl6 != null) {
-                        Picasso.get().load(imageUrl6).placeholder(R.drawable.book_einstein).into(imageView6);
-                    } else {
-                        Toast.makeText(getContext(), "Không tìm thấy URL ảnh cho story2", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Không tìm thấy URL ảnh cho story2");
-                    }
-
-                    // Hiển thị tên truyện trong TextView (giả sử bạn có một TextView để hiển thị tên)
-                    if (name6 != null) {
-                        textViewName6.setText(name6);
-                    } else {
-                        textViewName6.setText("Tên truyện không có sẵn");
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Dữ liệu không tồn tại", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Dữ liệu không tồn tại cho story2");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(getContext(), "Lỗi khi tải dữ liệu", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Lỗi khi tải dữ liệu: " + error.getMessage());
+                Toast.makeText(getContext(), "Lỗi tải dữ liệu: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void setupRecyclerView1(RecyclerView recyclerView, CommonBooksAdapter adapter) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void fetchStoriesFromFirebase() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                imageUrls.clear();
+                bookNames.clear();
+
+                // Lấy tất cả dữ liệu từ Firebase
+                for (DataSnapshot storySnapshot : snapshot.getChildren()) {
+                    String imageUrl = storySnapshot.child("imageUrl").getValue(String.class);
+                    String bookName = storySnapshot.child("name").getValue(String.class);
+
+                    if (imageUrl != null && bookName != null) {
+                        imageUrls.add(imageUrl);
+                        bookNames.add(bookName);
+                    }
+                }
+
+                // Tách dữ liệu cho Đề xuất (10 cuối) và Mới nhất (10 đầu tiên)
+                List<String> suggestionsImages = imageUrls.subList(Math.max(imageUrls.size() - 10, 0), imageUrls.size());
+                List<String> suggestionsNames = bookNames.subList(Math.max(bookNames.size() - 10, 0), bookNames.size());
+
+                List<String> newestImages = imageUrls.subList(0, Math.min(imageUrls.size(), 10));
+                List<String> newestNames = bookNames.subList(0, Math.min(bookNames.size(), 10));
+
+                // Cập nhật adapter
+                suggestionsAdapter.updateData(suggestionsImages, suggestionsNames);
+                newestAdapter.updateData(newestImages, newestNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Không thể tải dữ liệu từ Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 

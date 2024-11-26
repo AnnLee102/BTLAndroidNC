@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:paddingTop="5dp"
     android:background="#1C1C1C">
 
     <!-- Dòng 1: Các thể loại sách nằm ngang -->
@@ -16,7 +16,8 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:background="@drawable/gradient_background">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -35,7 +36,7 @@
                 app:tint="#FFFFFF"
                 android:layout_marginTop="7sp"
                 android:layout_marginRight="10dp"
-
+                android:paddingLeft="5dp"
                 />
             <!-- TextView 1 -->
             <TextView
@@ -43,11 +44,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:paddingBottom="20dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="Sách nói"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:paddingLeft="5dp"/>
             <!-- TextView 2 -->
             <TextView
                 android:id="@+id/textViewCategory2"
@@ -115,7 +118,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:paddingLeft="5dp"/>
 
     <!-- Layout chứa các hình ảnh -->
     <GridLayout
@@ -131,6 +135,6 @@
     <!-- Khoảng trống 100dp để tránh bị thanh menu che khuất -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="70dp"/>
+        android:layout_height="80dp"/>
 </LinearLayout>
 </ScrollView>

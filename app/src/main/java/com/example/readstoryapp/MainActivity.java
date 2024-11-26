@@ -4,20 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -25,17 +31,24 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
     private ActionBarDrawerToggle toggle;
-    private ArrayList<String> searchHistory;
-    private ArrayAdapter<String> searchAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Thiết lập Drawer Layout
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+
 
         // Thiết lập Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -53,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Thiết lập trình nghe sự kiện click cho Navigation Drawer
-        navigationView.setNavigationItemSelectedListener(drawerListener);
+
 
         // Thiết lập Bottom Navigation View
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -66,12 +78,38 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.nav_home); // Đặt mặc định vào Home
         }
 
-        // Khởi tạo danh sách lịch sử tìm kiếm
-        searchHistory = new ArrayList<>();
 
-        // Nút tìm kiếm
-        ImageButton searchButton = findViewById(R.id.search_button);
-        searchButton.setOnClickListener(v -> openSearchFragment());
+
+
+
+        //lấy dữ liệu tác giả từ firebase
+        storiesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Set<String> authors = new HashSet<>();
+                for (DataSnapshot storySnapshot : dataSnapshot.getChildren()) {
+                    String author = storySnapshot.child("author").getValue(String.class);
+                    if (author != null) {
+                        authors.add(author);
+                    }
+                }
+                updateNavigationMenu(authors);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "Failed to load authors", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Tìm ImageButton trong layout
+        ImageButton btnOpenSearch = findViewById(R.id.search_button);
+
+        // Gán sự kiện khi nhấn nút
+        btnOpenSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent); // Chuyển đến SearchActivity
+        });
     }
 
     // Listener cho Bottom Navigation View
@@ -98,27 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    // Listener cho Navigation Drawer
-    private final NavigationView.OnNavigationItemSelectedListener drawerListener =
-            new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    // Xử lý sự kiện click vào các mục trong ngăn kéo
-                    if (item.getItemId() == R.id.nav_poetry) {
-                        Toast.makeText(MainActivity.this, "Thơ - Tản văn", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.nav_detective) {
-                        Toast.makeText(MainActivity.this, "Trinh thám - Kinh dị", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.nav_marketing) {
-                        Toast.makeText(MainActivity.this, "Marketing - Bán hàng", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.nav_management) {
-                        Toast.makeText(MainActivity.this, "Quản trị - Lãnh đạo", Toast.LENGTH_SHORT).show();
-                    }
-
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    return true;
-                }
-            };
-
+    DatabaseReference storiesRef = FirebaseDatabase.getInstance().getReference("stories");
     // Phương thức để nạp một fragment vào vùng chứa fragment của MainActivity
     private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -135,56 +153,61 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openSearchFragment() {
-        // Mở fragment tìm kiếm
-        SearchFragment searchFragment = new SearchFragment();
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, searchFragment); // Thay thế fragment hiện tại bằng fragment tìm kiếm
-        transaction.addToBackStack(null); // Thêm vào back stack để có thể quay lại
-        transaction.commit();
-    }
 
-    // Khởi tạo Fragment tìm kiếm
-    public static class SearchFragment extends Fragment {
+    //Thêm danh sách tác giả bên trái
+    private void updateNavigationMenu(Set<String> authors) {
+        NavigationView navigationView = findViewById(R.id.navigation_view); // ID của NavigationView trong layout
+        Menu menu = navigationView.getMenu();
 
-        private ArrayList<String> searchHistory;
-        private ArrayAdapter<String> searchAdapter;
+        menu.clear(); // Xóa menu cũ
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // Inflate layout tìm kiếm
-            View rootView = inflater.inflate(R.layout.search_layout, container, false);
+        // Sắp xếp danh sách tác giả theo thứ tự ABC
+        List<String> sortedAuthors = new ArrayList<>(authors);
+        Collections.sort(sortedAuthors);
 
-            searchHistory = new ArrayList<>();
-            ListView searchHistoryList = rootView.findViewById(R.id.search_history_list);
-            EditText searchInput = rootView.findViewById(R.id.search_input);
-            ImageButton backButton = rootView.findViewById(R.id.back_button);
+        // Thêm tiêu đề "Tên tác giả"
+        SpannableString styledTitle = new SpannableString("Tên tác giả");
+        styledTitle.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, styledTitle.length(), 0); // In đậm
+        styledTitle.setSpan(new ForegroundColorSpan(Color.WHITE), 0, styledTitle.length(), 0); // Đổi màu trắng
+        MenuItem headerItem = menu.add(Menu.NONE, Menu.NONE, 0, styledTitle);
+        headerItem.setEnabled(false); // Không thể nhấp
 
-            // Xử lý khi nhấn nút quay lại
-            backButton.setOnClickListener(v -> getFragmentManager().popBackStack());
+        // Thêm danh sách tác giả
+        for (String author : sortedAuthors) {
+            MenuItem item = menu.add(author);
+            item.setOnMenuItemClickListener(menuItem -> {
+                // Chuyển sang Fragment với dữ liệu tên tác giả
+                Bundle bundle = new Bundle();
+                bundle.putString("author_name", menuItem.getTitle().toString()); // Truyền tên tác giả
 
-            // Khởi tạo adapter cho danh sách lịch sử tìm kiếm
-            searchAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, searchHistory);
-            searchHistoryList.setAdapter(searchAdapter);
+                AuthorFragment fragment = new AuthorFragment();
+                fragment.setArguments(bundle);
 
-            // Xử lý khi nhấn phím Enter
-            searchInput.setOnKeyListener((v, keyCode, event) -> {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    String query = searchInput.getText().toString().trim();
-                    if (!query.isEmpty()) {
-                        searchHistory.add(query); // Thêm từ khóa vào danh sách
-                        searchAdapter.notifyDataSetChanged(); // Cập nhật danh sách
-                        Toast.makeText(getActivity(), "Tìm kiếm: " + query, Toast.LENGTH_SHORT).show();
-                        searchInput.setText(""); // Xóa nội dung sau khi tìm
-                    }
-                    return true; // Đã xử lý sự kiện
-                }
-                return false; // Không xử lý các phím khác
+                // Thay đổi fragment
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                return true;
             });
-
-            return rootView;
         }
+
+
+        // Thêm khoảng trống cuối danh sách
+        MenuItem spacerItem = menu.add(" ");
+        spacerItem.setEnabled(false); // Không thể nhấp
+        View spacer = new View(this);
+        spacer.setMinimumHeight(150); // Chiều cao 100px
+        spacerItem.setActionView(spacer); // Gán view cho item
+
+        navigationView.invalidate(); // Làm mới NavigationView
     }
+
+
+
+
 
 }
