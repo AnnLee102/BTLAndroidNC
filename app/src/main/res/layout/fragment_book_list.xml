@@ -122,13 +122,16 @@
         android:paddingLeft="5dp"/>
 
     <!-- Layout chứa các hình ảnh -->
-    <LinearLayout
+    <GridLayout
         android:id="@+id/layoutImages"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold" >
-    </LinearLayout>
+        android:columnCount="2"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:clipToPadding="false">
+    </GridLayout>
     <!-- Khoảng trống 100dp để tránh bị thanh menu che khuất -->
     <View
         android:layout_width="match_parent"

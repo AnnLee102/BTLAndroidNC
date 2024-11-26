@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-//adapter sau khi ấn search
+
+// Adapter sau khi ấn search
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
 
     private Context context;
@@ -44,8 +44,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
         // Đặt ảnh truyện (nếu có)
         Picasso.get().load(story.getImageUrl()).into(holder.storyImage);
-
-
     }
 
     @Override
@@ -67,5 +65,3 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         }
     }
 }
-
-
