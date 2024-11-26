@@ -1,14 +1,127 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_add"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is Add Fragment"
-        android:textSize="18sp" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:paddingBottom="60dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên truyện"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/et_story_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Nhập tên truyện"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thể loại"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white" />
+
+        <Spinner
+            android:id="@+id/spinner_category"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="#FF0000" />
+
+        <EditText
+            android:id="@+id/et_new_category"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Nhập thể loại mới"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/> <!-- Đặt ẩn theo mặc định -->
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên tác giả"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/et_author_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Nhập tên tác giả"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nội dung"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/et_story_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập nội dung"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:gravity="top"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <!-- Ảnh bìa -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ảnh bìa"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_cover_image"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="Ảnh bìa" />
+
+        <Button
+            android:id="@+id/btn_select_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Chọn ảnh bìa" />
+
+        <!-- Nút Lưu -->
+        <Button
+            android:id="@+id/btn_save_story"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lưu Truyện"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

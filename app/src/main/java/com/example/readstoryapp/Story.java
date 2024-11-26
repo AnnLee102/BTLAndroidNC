@@ -13,12 +13,14 @@ public class Story {
     }
 
     // Constructor with parameters
-    public Story(String name, String author, String imageUrl, String contentUrl) {
+    public Story(String name, String category, String author, String imageUrl, String contentUrl) {
         this.name = name;
+        this.category = category;
         this.author = author;
         this.imageUrl = imageUrl;
         this.contentUrl = contentUrl;
     }
+
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
