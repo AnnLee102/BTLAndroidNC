@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Dòng đầu: Nút quay lại và chữ "Tìm kiếm" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Quay lại"
+            android:background="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tìm kiếm"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Dòng thứ hai: EditText nhập nội dung tìm kiếm -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập tên truyện, tác giả, thể loại"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingTop="20dp"/>
+
+        <!-- Nút x để xóa -->
+        <ImageButton
+            android:id="@+id/clear_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:visibility="gone"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_clear"
+            android:contentDescription="Clear text"/>
+
+        <!-- TextView thông báo khi không có kết quả tìm kiếm -->
+
+    </FrameLayout>
+
+    <!-- Dòng thứ ba: Chữ "Sách được tìm kiếm nhiều" -->
+    <TextView
+        android:id="@+id/search_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sách được tìm kiếm nhiều nhất"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:paddingTop="10dp"
+         />
+
+    <TextView
+        android:id="@+id/no_results_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông tin bạn tìm hiện không tồn tại"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center"
+        android:paddingTop="200dp"
+        android:visibility="gone" />
+
+    <!-- Danh sách các sách -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

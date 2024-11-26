@@ -7,4 +7,11 @@
         <item name="android:paddingTop">100dp</item> <!-- Tăng khoảng cách trên -->
         <item name="android:paddingBottom">20dp</item> <!-- Tăng khoảng cách dưới -->
     </style>
+
+    <style name="MarqueeSpeed">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

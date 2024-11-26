@@ -51,5 +51,4 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("com.google.firebase:firebase-database:21.0.0")
     implementation ("androidx.recyclerview:recyclerview:1.3.2") // Phiên bản có thể khác
-
 }

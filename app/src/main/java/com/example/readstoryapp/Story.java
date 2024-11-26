@@ -1,38 +1,36 @@
 package com.example.readstoryapp;
 
 public class Story {
-    private String category;
     private String name;
+    private String author;
+    private String category;
     private String imageUrl;
 
-    // Constructor không tham số (để Firebase có thể tạo đối tượng tự động)
-    public Story() {
-    }
+    public Story() { }
 
-    // Getter và Setter
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
+    public Story(String name, String author, String category, String imageUrl) {
+        this.name = name;
+        this.author = author;
         this.category = category;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }
+
 
 

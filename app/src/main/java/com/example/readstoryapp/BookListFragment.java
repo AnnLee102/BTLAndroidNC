@@ -172,14 +172,28 @@ public class BookListFragment extends Fragment {
         LinearLayout imageLayout = new LinearLayout(getContext());
         imageLayout.setOrientation(LinearLayout.VERTICAL); // Sắp xếp ảnh và tên truyện theo chiều dọc
 
-        // Cài đặt ảnh
+        // Tạo CardView bọc ảnh
+        androidx.cardview.widget.CardView cardView = new androidx.cardview.widget.CardView(getContext());
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                convertDpToPx(180), convertDpToPx(250)); // Kích thước CardView
+        cardParams.setMargins(25, 30, 20, 10); // Khoảng cách bên ngoài CardView
+        cardView.setLayoutParams(cardParams);
+        cardView.setRadius(convertDpToPx(8)); // Bán kính bo góc
+        cardView.setCardElevation(8); // Đổ bóng
+        cardView.setPreventCornerOverlap(true); // Đảm bảo nội dung không bị cắt
+        cardView.setUseCompatPadding(true); // Thêm padding tương thích
+
+        // Cài đặt ảnh bên trong CardView
         ImageView imageView = new ImageView(getContext());
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
-                convertDpToPx(170), convertDpToPx(250)); // Tăng kích thước ảnh mỗi chiều thêm 50dp
-        imageParams.setMargins(10, 10, 15, 10); // Khoảng cách bên ngoài ảnh
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         imageView.setLayoutParams(imageParams);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // Đảm bảo ảnh vừa khung
         Picasso.get().load(story.getImageUrl()).into(imageView);
-        imageLayout.addView(imageView);
+
+        // Thêm ImageView vào CardView
+        cardView.addView(imageView);
+        imageLayout.addView(cardView);
 
         // Tạo tên truyện
         TextView textView = new TextView(getContext());
@@ -189,19 +203,16 @@ public class BookListFragment extends Fragment {
 
         // Giới hạn chiều dài chữ và cho phép xuống dòng
         LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
-                convertDpToPx(160), LinearLayout.LayoutParams.WRAP_CONTENT); // Chiều rộng tối đa 160dp
+                convertDpToPx(180), LinearLayout.LayoutParams.WRAP_CONTENT); // Chiều rộng tối đa 180dp
         textView.setLayoutParams(textParams);
 
         // Cài đặt padding cho tên truyện
-        textView.setPadding(5, 10, 5, 10); // Thêm padding trên và dưới (10dp) cho tên truyện
-        // In đậm tên truyện
+        textView.setPadding(35, 10, 0, 20); // Thêm padding cho TextView
         textView.setTypeface(null, Typeface.BOLD); // Đặt kiểu chữ thành đậm
         imageLayout.addView(textView);
 
         return imageLayout;
     }
-
-
 
 
     // Hàm chuyển đổi dp thành px

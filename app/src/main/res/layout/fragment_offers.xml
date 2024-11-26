@@ -1,14 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:padding="16dp"
+    android:background="#1C1C1C">
 
+    <!-- Dòng 1: TextView "Ưu đãi" -->
     <TextView
-        android:id="@+id/text_offers"
+        android:id="@+id/tv_offer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is Add Fragment"
-        android:textSize="18sp" />
+        android:text="Ưu đãi"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Dòng 2: TextView "FLASH SALE"-->
+    <TextView
+        android:id="@+id/tv_flash_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FLASH SALE"
+        android:textColor="#FD4287"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_offer_title"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_teacher_day"
+        style="@style/MarqueeSpeed"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="start"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="8dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="KỶ NIỆM NGÀY NHÀ GIÁO VIỆT NAM 20/11                                                       "
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_flash_sale" />
+
+    <TextView
+        android:id="@+id/countdown_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="14:00:00"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_teacher_day" />
+
+    <LinearLayout
+        android:id="@+id/line_4_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/bg_offers"
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher_day"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Bố cục bên trái -->
+        <LinearLayout
+            android:id="@+id/left_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 tháng"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="183 ngày đọc/nghe sách"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Bố cục bên phải -->
+        <LinearLayout
+            android:id="@+id/right_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:paddingLeft="80dp">
+
+            <!-- Phần bên trái: 179 -->
+            <TextView
+                android:id="@+id/right_text_179"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="179"
+                android:textSize="30sp"
+                android:textColor="#FD4287"
+                android:textStyle="bold"
+                 />
+
+            <!-- Phần bên phải: Chia thành 2 phần dọc -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+            <TextView
+                android:id="@+id/right_text_000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=".000"
+                android:textSize="10sp"
+                android:textColor="#FD4287"
+                android:gravity="start"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/right_text_dong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="đồng"
+                android:textSize="14sp"
+                android:textColor="#FD4287"
+                android:textStyle="bold"
+                 />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
+
+    <!-- Layout thứ hai -->
+    <LinearLayout
+        android:id="@+id/line_5_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/bg_offers"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/line_4_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Bố cục bên trái -->
+        <LinearLayout
+            android:id="@+id/line_5_left_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12 tháng"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="365 ngày đọc/nghe sách"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Bố cục bên phải -->
+        <LinearLayout
+            android:id="@+id/line_5_right_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:paddingLeft="80dp">
+
+            <!-- Phần bên trái: 359 -->
+            <TextView
+                android:id="@+id/right_text_359"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="359"
+                android:textSize="30sp"
+                android:textColor="#FD4287"
+                android:textStyle="bold" />
+
+            <!-- Phần bên phải: Chia thành 2 phần dọc -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/right_text_000_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=".000"
+                    android:textSize="10sp"
+                    android:textColor="#FD4287"
+                    android:gravity="start"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/right_text_dong_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="đồng"
+                    android:textSize="14sp"
+                    android:textColor="#FD4287"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- Thêm TextView "Sách hay giá tốt" trước HorizontalScrollView -->
+
+    <!-- HorizontalScrollView để cuộn -->
+    <TextView
+        android:id="@+id/tv_books_best_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Sách hay giá tốt"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_5_container" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_stories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/tv_books_best_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- LinearLayout chứa các item -->
+        <LinearLayout
+            android:id="@+id/story_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

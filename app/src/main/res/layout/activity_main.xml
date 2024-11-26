@@ -49,13 +49,14 @@
 
         <!-- Ngăn kéo điều hướng ở bên trái -->
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
+            android:id="@+id/navigation_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/menu_categories"
+
             app:itemTextAppearance="@style/MenuItemStyle"
             android:background="#1C1C1C"/>
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <!-- Thanh điều hướng dưới cùng luôn hiển thị -->

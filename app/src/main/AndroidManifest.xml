@@ -18,7 +18,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
+        <!-- Đảm bảo đã khai báo SearchActivity -->
+        <activity android:name=".SearchActivity">
+            
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
