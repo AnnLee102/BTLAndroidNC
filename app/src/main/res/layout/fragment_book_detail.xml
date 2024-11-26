@@ -43,13 +43,14 @@
         android:id="@+id/readBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@drawable/rounded_background"
         android:gravity="center"
         android:padding="16dp"
         android:text="Đọc Sách"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
+
 
     <!-- RecyclerView hiển thị nội dung liên quan -->
     <TextView
