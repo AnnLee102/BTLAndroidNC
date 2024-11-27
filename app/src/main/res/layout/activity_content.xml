@@ -11,5 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
       />
-
+    <!-- Nút hiển thị thông báo -->
+    <Button
+        android:id="@+id/btnGoToMarked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đến chỗ đọc tiếp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>
