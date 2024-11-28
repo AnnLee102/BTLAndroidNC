@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.Arrays;
+import com.bumptech.glide.Glide;
+
 
 public class AddFragment extends Fragment {
 
@@ -93,6 +97,29 @@ public class AddFragment extends Fragment {
             }
         });
 
+        // Thêm sự kiện để tải ảnh từ URL
+        etImageUrl.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String imageUrl = charSequence.toString().trim();
+                if (!TextUtils.isEmpty(imageUrl)) {
+                    // Sử dụng Glide để tải ảnh từ URL
+                    Glide.with(getContext())
+                            .load(imageUrl)
+                            .placeholder(android.R.color.darker_gray) // Placeholder nếu ảnh chưa tải
+                            .into(ivCoverImage);
+                } else {
+                    ivCoverImage.setImageResource(android.R.color.darker_gray);  // Xóa ảnh nếu URL trống
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
 
         // Lưu truyện
         btnSaveStory.setOnClickListener(v -> saveStory());
@@ -130,8 +157,6 @@ public class AddFragment extends Fragment {
     }
 
     // Lưu truyện lên Firebase
-//
-
     private void saveStory() {
         String name = etStoryName.getText().toString().trim();
         String author = etAuthorName.getText().toString().trim();
