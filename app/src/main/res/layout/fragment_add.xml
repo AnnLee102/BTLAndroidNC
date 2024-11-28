@@ -99,6 +99,16 @@
             android:layout_marginBottom="4dp"
             android:textColor="@color/white" />
 
+        <EditText
+            android:id="@+id/et_image_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập URL ảnh"
+            android:inputType="textUri"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+
         <ImageView
             android:id="@+id/iv_cover_image"
             android:layout_width="150dp"
